@@ -10,7 +10,7 @@ const config = ({
 
   use: {
    browserName: 'webkit', //firefox, webkit for safari
-   headless: true
+   headless: false
   },
 
  
