@@ -40,3 +40,35 @@ test('traditional way using browser, context, page', async({browser})=>{
     console.log(allTitles)
 });
 
+test.only('UI - controls', async({page})=>{
+    await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
+    
+    const userName = page.locator('input#username')
+    const password = page.locator('[type="password"]')
+    const dropDown = page.locator('select.form-control')
+    await userName.fill("3rahulshettyacademy")
+    await password.fill("Learning@830$3mK2")
+
+    //dropdown
+    const storeDropdownValue= await dropDown.selectOption('consult')
+    console.log(storeDropdownValue)
+
+    //radio button
+    await page.locator(".checkmark").last().click()
+    await page.locator("#okayBtn").click()
+    await expect(page.locator(".checkmark").last()).toBeChecked() //assertion
+    console.log(await (page.locator(".checkmark").last()).isChecked())
+
+    //checkbox
+    await page.locator("#terms").click()
+    await expect(page.locator("#terms")).toBeChecked()
+
+    await page.locator("#terms").uncheck()
+    expect(await page.locator("#terms").isChecked()).toBeFalsy()
+    await page.pause()
+
+    //Blinking Text
+    const textLink = page.locator("[href*='documents-request']")
+    await expect(textLink).toHaveAttribute('class', 'blinkingText')
+
+});
