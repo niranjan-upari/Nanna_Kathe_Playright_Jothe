@@ -40,7 +40,7 @@ test('traditional way using browser, context, page', async({browser})=>{
     console.log(allTitles)
 });
 
-test.only('UI - controls', async({page})=>{
+test('UI - controls', async({page})=>{
     await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
     
     const userName = page.locator('input#username')
@@ -71,4 +71,30 @@ test.only('UI - controls', async({page})=>{
     const textLink = page.locator("[href*='documents-request']")
     await expect(textLink).toHaveAttribute('class', 'blinkingText')
 
+});
+
+test.only('Handling child windows', async({browser})=>{
+    const context = await browser.newContext()
+    const page = await context.newPage()
+
+    await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
+
+    const userName = page.locator('input#username')
+    const textLink = page.locator("[href*='documents-request']")
+    
+    const [newPage] =await Promise.all(   //promises are 3> pending, rejected, fulfilled
+    [
+        context.waitForEvent('page'),
+        textLink.click()
+        //await page.pause()
+    ]) //new page is opened
+    
+    const text= await newPage.locator(".red").textContent() //Please email us at mentor@rahulshettyacademy.com with below template to receive response
+    const arrayText = text.split("at") //["Please email us ", " mentor@rahulshettyacademy.com with below template to receive response"]
+    const email =arrayText[1].split(" ")[1] //mentor@rahulshettyacademy.com
+    console.log(email);
+    await userName.fill(email)
+    //await page.pause()
+    /*In this testcase we clicked on the link which opened a new page, we switched to that page and got the email id and then switched 
+    back to parent page and filled the email id in username field */
 });
