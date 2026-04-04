@@ -92,9 +92,13 @@ test.only('Handling child windows', async({browser})=>{
     const text= await newPage.locator(".red").textContent() //Please email us at mentor@rahulshettyacademy.com with below template to receive response
     const arrayText = text.split("at") //["Please email us ", " mentor@rahulshettyacademy.com with below template to receive response"]
     const email =arrayText[1].split(" ")[1] //mentor@rahulshettyacademy.com
-    console.log(email);
+    console.log(email,"- textContent()");
     await userName.fill(email)
     //await page.pause()
     /*In this testcase we clicked on the link which opened a new page, we switched to that page and got the email id and then switched 
     back to parent page and filled the email id in username field */
+
+    await page.locator('input#username').fill(email)
+    console.log(await page.locator('input#username').inputValue(), "- inputValue()") //inputValue() is used to get the value from the input field, textContent() is used to get the text from the element
+    //textContent() is used to get the text from the element, inputValue() is used to get the value from the input field
 });
