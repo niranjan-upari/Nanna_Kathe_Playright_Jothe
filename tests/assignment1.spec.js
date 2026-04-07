@@ -14,5 +14,16 @@ test('Assignment 1 - test', async({page})=>{
     const items= await page.locator(".card-body b").allTextContents()
     console.log(items)
 
+    //ZARA COAT 3
+    const productName = "ZARA COAT 3"
+    const products = page.locator(".card-body")
+    const count =await products.count()
+    for(let i=0; i<count; i++){
+        if(await products.nth(i).locator("b").textContent() === productName){
+            await products.nth(i).locator("text= Add To Cart").click()
+            break;
+        }
+    }
+    await page.pause()
 
 });
