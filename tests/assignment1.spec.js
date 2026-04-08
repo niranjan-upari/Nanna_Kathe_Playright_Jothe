@@ -24,6 +24,10 @@ test('Assignment 1 - test', async({page})=>{
             break;
         }
     }
-    await page.pause()
+    //await page.pause()
+    await page.locator("[routerlink*='cart']").click() // click on cart button
+    await page.locator("div li").last().waitFor() // wait for catItem to load
+    const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible() // check the item title is visible in cart page
+    expect(bool).toBeTruthy() //assertion to check the item is present in cart page or not
 
 });
